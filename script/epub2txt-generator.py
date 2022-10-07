@@ -53,15 +53,18 @@ def get_file_names(input_path, output_path):
 
 def generate_epub2txt(file_names):
     assert len(file_names) != 0, f"{EPUB_DIR_PATH} is empty. Put some '.epub' files there."
-    for file_name in file_names:
+    success = 0
+    for count, file_name in enumerate(file_names, start=1):
         try:
             file_text = epub2txt(f"{file_name}.epub")
             with open(os.path.join(output_path, f"{file_name}.txt"), "w") as f:
                 f.write(file_text)
                 print(f"[FILE]: {file_name}.txt Done!")
                 f.close()
+                success += 1
         except Exception as e:
             print(f"[FILE-ERROR]: {file_name}.txt failed.\n{e}\n")
+    print(f'{success}/{count} files successfully converted.')
     return None
 
 
@@ -70,4 +73,4 @@ if __name__ == "__main__":
     input_path, output_path = get_paths(args.workdir)
     make_dirs(input_path, output_path)
     file_names = get_file_names(input_path, output_path)
-    generate_epub2txt(file_names)
+    #generate_epub2txt(file_names)
