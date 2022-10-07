@@ -15,9 +15,9 @@ from epub2txt import epub2txt
 EPUB_DIR_PATH = "books/epub"
 TXT_DIR_PATH = "books/txt"
 
+
 # Define Argument Parser
 def get_args():
-
     parser = argparse.ArgumentParser(
         description=f"""Generates .txt format files from .epub files"""
     )
@@ -25,38 +25,49 @@ def get_args():
     return parser.parse_args()
 
 
-def generate_paths(workdir):
-    print(workdir)
+def get_paths(workdir):
     input_path = os.path.join(workdir, EPUB_DIR_PATH)
     output_path = os.path.join(workdir, TXT_DIR_PATH)
-    print(input_path)
     return input_path, output_path
 
 
-def epub2txt_from_file(input_path, output_path):
+def make_dirs(input_path, output_path):
+    if not os.path.exists(input_path):
+        os.makedirs(input_path)
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+    return None
+
+
+def get_file_names(input_path, output_path):
     try:
         os.chdir(output_path)
         output_list = [f for f in glob.glob("*.txt")]
         os.chdir(input_path)
         input_list = [f for f in glob.glob("*.epub")]
         files = list(set(input_list) - set(output_list))
-        file_names = list(map(lambda x: x.split(".epub")[0], files))
-        print(f"file_names: {file_names}")
-        for file_name in file_names:
-            try:
-                file_text = epub2txt(f"{file_name}.epub")
-                with open(os.path.join(output_path, f"{file_name}.txt"), "w") as f:
-                    f.write(file_text)
-                    print(f"[FILE]: {file_name}.txt Done!")
-                    f.close()
-            except Exception as e:
-                print(f"[FILE-ERROR]: {file_name}.txt failed.\n{e}\n")
-        return True
+        return list(map(lambda x: x.split(".epub")[0], files))
     except Exception as e:
-        print(f"[GENERATOR-ERROR]: {e}")
+        print(f"[GET-FILE-NAMES-ERROR]: {e}")
+
+
+def generate_epub2txt(file_names):
+    assert len(file_names) != 0, f"{EPUB_DIR_PATH} is empty. Put some '.epub' files there."
+    for file_name in file_names:
+        try:
+            file_text = epub2txt(f"{file_name}.epub")
+            with open(os.path.join(output_path, f"{file_name}.txt"), "w") as f:
+                f.write(file_text)
+                print(f"[FILE]: {file_name}.txt Done!")
+                f.close()
+        except Exception as e:
+            print(f"[FILE-ERROR]: {file_name}.txt failed.\n{e}\n")
+    return None
 
 
 if __name__ == "__main__":
     args = get_args()
-    input_path, output_path = generate_paths(args.workdir)
-    epub2txt_from_file(input_path, output_path)
+    input_path, output_path = get_paths(args.workdir)
+    make_dirs(input_path, output_path)
+    file_names = get_file_names(input_path, output_path)
+    generate_epub2txt(file_names)
