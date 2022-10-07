@@ -43,10 +43,13 @@ def get_file_names(input_path, output_path):
     try:
         os.chdir(output_path)
         output_list = [f for f in glob.glob("*.txt")]
+        output_file_names = list(map(lambda x: x.split(".txt")[0], output_list))
+        print(len(output_file_names))
         os.chdir(input_path)
         input_list = [f for f in glob.glob("*.epub")]
-        files = list(set(input_list) - set(output_list))
-        return list(map(lambda x: x.split(".epub")[0], files))
+        input_file_names = list(map(lambda x: x.split(".epub")[0], input_list))
+        print(len(input_file_names))
+        return list(set(input_file_names) - set(output_file_names))
     except Exception as e:
         print(f"[GET-FILE-NAMES-ERROR]: {e}")
 
@@ -73,4 +76,4 @@ if __name__ == "__main__":
     input_path, output_path = get_paths(args.workdir)
     make_dirs(input_path, output_path)
     file_names = get_file_names(input_path, output_path)
-    #generate_epub2txt(file_names)
+    generate_epub2txt(file_names)
