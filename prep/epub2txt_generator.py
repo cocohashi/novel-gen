@@ -28,11 +28,9 @@ def _makedir(path):
 
 def _get_file_names(input_path, output_path):
     try:
-        os.chdir(output_path)
-        output_list = [f for f in glob.glob("*.txt")]
+        output_list = [f for f in glob.glob(os.path.join(output_path, "*.txt"))]
         output_file_names = list(map(lambda x: x.split(".txt")[0], output_list))
-        os.chdir(input_path)
-        input_list = [f for f in glob.glob("*.epub")]
+        input_list = [f for f in glob.glob(os.path.join(input_path, "*.epub"))]
         input_file_names = list(map(lambda x: x.split(".epub")[0], input_list))
         return list(set(input_file_names) - set(output_file_names))
     except Exception as e:
