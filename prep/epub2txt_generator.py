@@ -19,12 +19,10 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-def _make_dirs(input_path, output_path):
-    if not os.path.exists(input_path):
-        os.makedirs(input_path)
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
-    return None
+def _makedir(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
 
 
 def _get_file_names(input_path, output_path):
@@ -62,7 +60,8 @@ def _epub2txt(file_names, output_path):
 def generate_epub2txt():
     input_path = os.path.join(os.getcwd(), EPUB_DIR_PATH)
     output_path = os.path.join(os.getcwd(), TXT_DIR_PATH)
-    _make_dirs(input_path, output_path)
+    _makedir(input_path)
+    _makedir(output_path)
     file_names = _get_file_names(input_path, output_path)
     _epub2txt(file_names, output_path)
     return None
