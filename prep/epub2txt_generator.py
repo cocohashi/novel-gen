@@ -9,11 +9,12 @@ Created on Fri Oct  7 09:59:57 2022
 import os
 import glob
 import logging
+from dotenv import load_dotenv
 from epub2txt import epub2txt
 
-# Environment Variables
-EPUB_DIR_PATH = "books/epub"
-TXT_DIR_PATH = "books/txt"
+load_dotenv()
+EPUB_DIR_PATH = os.getenv('EPUB_DIR_PATH')
+TXT_DIR_PATH = os.getenv('TXT_DIR_PATH')
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
