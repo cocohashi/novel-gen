@@ -54,11 +54,11 @@ def _epub2txt(file_names, output_path):
             file_text = epub2txt(f"{file_name}.epub")
             with open(os.path.join(output_path, f"{file_name}.txt"), "w") as f:
                 f.write(file_text)
-                print(f"[FILE]: {file_name}.txt Done!")
+                logger.info(f"[FILE]: {file_name}.txt Done!")
                 f.close()
                 success += 1
         except Exception as e:
-            print(f"[FILE-ERROR]: {file_name}.txt failed.\n{e}\n")
+            logger.error(f"[FILE-ERROR]: {file_name}.txt failed.\n{e}\n")
     logger.info(f'{success}/{count} files successfully converted.')
     return None
 
