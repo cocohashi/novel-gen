@@ -8,11 +8,15 @@ Created on Fri Oct  7 09:59:57 2022
 
 import os
 import glob
+import logging
 from epub2txt import epub2txt
 
 # Environment Variables
 EPUB_DIR_PATH = "books/epub"
 TXT_DIR_PATH = "books/txt"
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 
 def _get_paths(workdir):
@@ -34,14 +38,12 @@ def _get_file_names(input_path, output_path):
         os.chdir(output_path)
         output_list = [f for f in glob.glob("*.txt")]
         output_file_names = list(map(lambda x: x.split(".txt")[0], output_list))
-        print(len(output_file_names))
         os.chdir(input_path)
         input_list = [f for f in glob.glob("*.epub")]
         input_file_names = list(map(lambda x: x.split(".epub")[0], input_list))
-        print(len(input_file_names))
         return list(set(input_file_names) - set(output_file_names))
     except Exception as e:
-        print(f"[GET-FILE-NAMES-ERROR]: {e}")
+        logger.error(e)
 
 
 def _epub2txt(file_names, output_path):
@@ -57,7 +59,7 @@ def _epub2txt(file_names, output_path):
                 success += 1
         except Exception as e:
             print(f"[FILE-ERROR]: {file_name}.txt failed.\n{e}\n")
-    print(f'{success}/{count} files successfully converted.')
+    logger.info(f'{success}/{count} files successfully converted.')
     return None
 
 
