@@ -15,13 +15,13 @@ EPUB_DIR_PATH = "books/epub"
 TXT_DIR_PATH = "books/txt"
 
 
-def get_paths(workdir):
+def _get_paths(workdir):
     input_path = os.path.join(workdir, EPUB_DIR_PATH)
     output_path = os.path.join(workdir, TXT_DIR_PATH)
     return input_path, output_path
 
 
-def make_dirs(input_path, output_path):
+def _make_dirs(input_path, output_path):
     if not os.path.exists(input_path):
         os.makedirs(input_path)
     if not os.path.exists(output_path):
@@ -29,7 +29,7 @@ def make_dirs(input_path, output_path):
     return None
 
 
-def get_file_names(input_path, output_path):
+def _get_file_names(input_path, output_path):
     try:
         os.chdir(output_path)
         output_list = [f for f in glob.glob("*.txt")]
@@ -44,7 +44,7 @@ def get_file_names(input_path, output_path):
         print(f"[GET-FILE-NAMES-ERROR]: {e}")
 
 
-def generate_epub2txt(file_names):
+def _epub2txt(file_names, output_path):
     assert len(file_names) != 0, f"{EPUB_DIR_PATH} is empty. Put some '.epub' files there."
     success = 0
     for count, file_name in enumerate(file_names, start=1):
@@ -61,8 +61,9 @@ def generate_epub2txt(file_names):
     return None
 
 
-if __name__ == "__main__":
-    input_path, output_path = get_paths(os.getcwd())
-    make_dirs(input_path, output_path)
-    file_names = get_file_names(input_path, output_path)
-    generate_epub2txt(file_names)
+def generate_epub2txt():
+    input_path, output_path = _get_paths(os.getcwd())
+    _make_dirs(input_path, output_path)
+    file_names = _get_file_names(input_path, output_path)
+    _epub2txt(file_names, output_path)
+    return None
