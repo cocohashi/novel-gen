@@ -19,12 +19,6 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
-def _get_paths(workdir):
-    input_path = os.path.join(workdir, EPUB_DIR_PATH)
-    output_path = os.path.join(workdir, TXT_DIR_PATH)
-    return input_path, output_path
-
-
 def _make_dirs(input_path, output_path):
     if not os.path.exists(input_path):
         os.makedirs(input_path)
@@ -47,7 +41,9 @@ def _get_file_names(input_path, output_path):
 
 
 def _epub2txt(file_names, output_path):
-    assert len(file_names) != 0, f"{EPUB_DIR_PATH} is empty. Put some '.epub' files there."
+    assert (
+        len(file_names) != 0
+    ), f"{EPUB_DIR_PATH} is empty. Put some '.epub' files there."
     success = 0
     for count, file_name in enumerate(file_names, start=1):
         try:
@@ -59,12 +55,13 @@ def _epub2txt(file_names, output_path):
                 success += 1
         except Exception as e:
             logger.error(f"[FILE-ERROR]: {file_name}.txt failed.\n{e}\n")
-    logger.info(f'{success}/{count} files successfully converted.')
+    logger.info(f"{success}/{count} files successfully converted.")
     return None
 
 
 def generate_epub2txt():
-    input_path, output_path = _get_paths(os.getcwd())
+    input_path = os.path.join(os.getcwd(), EPUB_DIR_PATH)
+    output_path = os.path.join(os.getcwd(), TXT_DIR_PATH)
     _make_dirs(input_path, output_path)
     file_names = _get_file_names(input_path, output_path)
     _epub2txt(file_names, output_path)
