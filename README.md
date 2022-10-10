@@ -26,6 +26,6 @@ conda install -r requirements.txt
 3. From proyect roon folder, run:
 
 ```bash
-python3 script/epub2txt-generator.py --workdir $(pwd)
+python3 script/epub2txt_generator.py --workdir $(pwd)
 ```
 	 
