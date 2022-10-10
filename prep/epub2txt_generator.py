@@ -8,21 +8,11 @@ Created on Fri Oct  7 09:59:57 2022
 
 import os
 import glob
-import argparse
 from epub2txt import epub2txt
 
 # Environment Variables
 EPUB_DIR_PATH = "books/epub"
 TXT_DIR_PATH = "books/txt"
-
-
-# Define Argument Parser
-def get_args():
-    parser = argparse.ArgumentParser(
-        description=f"""Generates .txt format files from .epub files"""
-    )
-    parser.add_argument("--workdir", type=str, help="Workdir path")
-    return parser.parse_args()
 
 
 def get_paths(workdir):
@@ -72,8 +62,7 @@ def generate_epub2txt(file_names):
 
 
 if __name__ == "__main__":
-    args = get_args()
-    input_path, output_path = get_paths(args.workdir)
+    input_path, output_path = get_paths(os.getcwd())
     make_dirs(input_path, output_path)
     file_names = get_file_names(input_path, output_path)
     generate_epub2txt(file_names)
