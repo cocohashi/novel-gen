@@ -64,3 +64,7 @@ def generate_epub2txt():
     file_names = _get_file_names(input_path, output_path)
     _epub2txt(file_names, output_path)
     return None
+
+
+if __name__ == "__main__":
+    generate_epub2txt()
