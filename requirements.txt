@@ -1,3 +1,6 @@
 epub2txt==0.1.1
 python-dotenv==0.21.0
 tqdm==4.64.1
+transformers==4.23.0
+torch==1.12.1
+ipywidgets==8.0.2
