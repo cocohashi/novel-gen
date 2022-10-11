@@ -6,5 +6,9 @@ __pycache__/
 # Pycharm
 .idea
 
+# Notebooks
+.ipynb_checkpoints
+
 # Data
 books/
+models/
